@@ -6,4 +6,6 @@ task or process information (Paas et al. 2016). With the recent trend in using V
 environments. Currently, cognitive load detection relies heavily on subjective measures,
 such as self-reports and questionnaires, which do not allow real-time feedback to learners
 and instructors. In our study, we want to design and evaluate an AI agent that gauge the cognitive load after a
-task and provides a better suited follow-up task for the user. This is the codebase for that agent.
+task and provides a better suited follow-up task for the user. This would provide an effective way of understanding and managing cogntiive load in real-time.
+
+This is the codebase for that agent.
