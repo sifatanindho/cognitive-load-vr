@@ -1,4 +1,6 @@
-# Overview
+# AI assisted Cognitive Load Management in VR learning environments
+
+## Overview
 Cognitive load refers to the amount of mental effort or resources required to complete a
 task or process information (Paas et al. 2016). With the recent trend in using Virtual Reality
 (VR) environments for learning and the impact of cognitive load on learning success
