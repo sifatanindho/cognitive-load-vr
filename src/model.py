@@ -69,5 +69,5 @@ if __name__ == "__main__":
     data = preprocess_data(file_path)
 
     # Train the model
-    model = train_model(data, model_type="random_forest")
+    model = train_model(data, model_type="linear")
     print("Model training complete.")
