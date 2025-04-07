@@ -11,3 +11,9 @@ and instructors. In our study, we want to design and evaluate an AI agent that g
 task and provides a better suited follow-up task for the user. This would provide an effective way of understanding and managing cogntiive load in real-time.
 
 This is the codebase for that agent.
+
+
+## References
+Paas, F., Tuovinen, J. E., Tabbers, H., & Van Gerven, P. W. (2016). Cognitive load measurement as a means to advance cognitive load theory. In Cognitive Load Theory (pp. 63-71). Routledge 
+
+Sweller, J., Ayres, P., & Kalyuga, S. (2011). Cognitive load theory (vol. 1). New York: Springer. 
