@@ -4,8 +4,11 @@ This dataset was created using the findings by the authors of the paper "Explori
 This dataset contains the relevant information processed from the raw data collected during the experiments in the original paper.
 
 ID - The ID of the participant
+
 TimeX - The time in seconds of the duration of the task in condition X
+
 ErrorsX - The number of errors made by the participant in condition X
+
 MWSX - The mental workload score of the participant in condition X
 
 Condition - The condition of the experiment (1, 2, 3, 4, 5)
