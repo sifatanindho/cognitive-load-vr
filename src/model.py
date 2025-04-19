@@ -3,13 +3,15 @@ import pickle
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
+from sklearn.model_selection import cross_val_score
+import numpy as np
 import pandas as pd
 
 from data_preprocessing import preprocess_data
 
 def train_model(data, model_type="random_forest"):
     """
-    Train a classification model to predict cognitive load labels.
+    Train a classification model to predict cognitive load labels with cross-validation.
 
     Args:
         data (tuple): A tuple containing (X_train, X_test, y_train, y_test).
@@ -28,13 +30,20 @@ def train_model(data, model_type="random_forest"):
     else:
         raise ValueError("Invalid model_type. Choose 'random_forest' or 'logistic_regression'.")
 
-    # Train the model
+    # Perform cross-validation
+    print("Performing cross-validation...")
+    cv_scores = cross_val_score(model, X_train, y_train, cv=5, scoring="accuracy")
+    print(f"Cross-Validation Scores: {cv_scores}")
+    print(f"Mean CV Accuracy: {np.mean(cv_scores)}")
+    print(f"Standard Deviation of CV Accuracy: {np.std(cv_scores)}")
+
+    # Train the model on the full training set
     model.fit(X_train, y_train)
 
-    # Evaluate the model
+    # Evaluate the model on the test set
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
-    print(f"Model Type: {model_type}, Accuracy: {accuracy}")
+    print(f"Test Set Accuracy: {accuracy}")
     print("\nClassification Report:")
     print(classification_report(y_test, y_pred))
 
