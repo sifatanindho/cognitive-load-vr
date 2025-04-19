@@ -15,23 +15,36 @@ def evaluate_model(model, X_test, y_test):
     Returns:
         dict: A dictionary containing evaluation metrics (accuracy, classification report, confusion matrix).
     """
+    y_codes = {"Very Low": 0, "Low": 1, "Medium": 2, "High": 3, "Very High": 4}
+    
     # Predict the target labels for the test set
     y_pred = model.predict(X_test)
-
+    y_pred_numeric = pd.Series(y_pred).map(y_codes)  # Convert predicted labels to numeric codes
+    y_test_numeric = pd.Series(y_test).map(y_codes)  # Convert true labels to numeric codes
     # Calculate evaluation metrics
     accuracy = accuracy_score(y_test, y_pred)
     class_report = classification_report(y_test, y_pred, output_dict=True)
     conf_matrix = confusion_matrix(y_test, y_pred)
-
+    
+    # Calculate off-by-1 ratio
+    
+    off_by_1 = sum(abs(y_test_numeric - y_pred_numeric) <= 1) / len(y_test)
+    
     # Print the metrics
     print(f"Accuracy: {accuracy}")
     print("\nClassification Report:")
     print(classification_report(y_test, y_pred))
     print("\nConfusion Matrix:")
     print(conf_matrix)
+    print(f"\nOff-by-1 Ratio: {off_by_1}")
 
     # Return the metrics as a dictionary
-    return {"accuracy": accuracy, "classification_report": class_report, "confusion_matrix": conf_matrix}
+    return {
+        "accuracy": accuracy,
+        "classification_report": class_report,
+        "confusion_matrix": conf_matrix,
+        "off_by_1_ratio": off_by_1,
+    }
 
 if __name__ == "__main__":
     # Resolve paths dynamically
