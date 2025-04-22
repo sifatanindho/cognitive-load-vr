@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Experiment</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script>
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('finishForm').style.display = 'block';
+            }, 30000);
+        };
+    </script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen space-y-4">
+    <img src="{{ url_for('static', filename='sample_image.jpg') }}" class="max-w-md">
+    <form method="post" action="/finish" id="finishForm" style="display:none;">
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Finish</button>
+    </form>
+</body>
+</html>

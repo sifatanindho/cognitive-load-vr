@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Report</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <form method="post" action="/submit" class="bg-white p-8 rounded shadow-md space-y-4">
+        <img src="{{ image }}" class="max-w-md mx-auto">
+        <label for="errors" class="block text-lg">Number of Errors:</label>
+        <input type="number" name="errors" id="errors" class="border border-gray-300 p-2 w-full rounded" required>
+        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Submit</button>
+    </form>
+</body>
+</html>
