@@ -6,14 +6,15 @@
     <script>
         window.onload = function() {
             setTimeout(() => {
-                document.getElementById('finishForm').style.display = 'block';
+                document.querySelector('img').style.display = 'none'; 
+                // document.getElementById('finishForm').style.display = 'block';
             }, 30000);
         };
     </script>
 </head>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen space-y-4">
-    <img src="{{ url_for('static', filename='sample_image.jpg') }}" class="max-w-md">
-    <form method="post" action="/finish" id="finishForm" style="display:none;">
+    <img src="{{ url_for('static', filename='dream.jpeg') }}" class="max-w-md">
+    <form method="post" action="/finish" id="finishForm" style="display:block;">
         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Finish</button>
     </form>
 </body>
