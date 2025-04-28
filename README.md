@@ -11,7 +11,7 @@ Data module: After each task, compute time and error inputs.
 
 Prediction module: Feed inputs to the trained model to get a load estimate.
 
-Adjustment module: Compare the estimate to the target. Output a new piece count for the next task based on your rules.
+Adjustment module: Output a new piece count for the next task based on load estimate.
 
 Interface/Task module: Build a random Lego structure with the adjusted piece count and plot images of each side for the next task.
 
