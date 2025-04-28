@@ -16,3 +16,17 @@ Adjustment module: Compare the estimate to the target. Output a new piece count 
 Interface/Task module: Build a random Lego structure with the adjusted piece count and plot images of each side for the next task.
 
 Data is collected from user studies through a light weight interface on tablets. A logistic regression model trained on a different dataset from a VR cooking experiment is used to estimate load. With the load as an input variable, a piece count is computed using a rules-based approach. The agent then generates a configuration of a lego structure to build for the next task with the number of blocks, and the side images are sent to the user interface.
+
+## Setup
+```conda env create -f environment.yml```
+```conda activate cog-vr```
+
+## Training on a labeled dataset
+```python src/model.py --dataset /path/to/custom_dataset.csv --model_type logistic_regression``` 
+
+If you wanna use the default dataset and model leave args blank
+
+## Evaluating model on a labeled dataset
+```python src/evaluate.py``` 
+
+This will evaluate the latest model you trained on the latest dataset you used. Running this without running ```model.py``` is pointless
