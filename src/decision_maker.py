@@ -1,4 +1,5 @@
 import os
+import random
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
@@ -24,23 +25,25 @@ def get_number_of_blocks(recommended_task):
     return difficulty_to_blocks.get(recommended_task, (4, 4, 4))
 
 def generate_lego_structure(dimensions):
-    x, y, z = dimensions
-    structure = np.empty((x, y, z), dtype=str)
-    colors = ['R', 'B', 'G', 'Y']
-    for i in range(x):
-        for j in range(y):
-            for k in range(z):
-                if i == 0:  # bottom layer always got blocks
-                    structure[i, j, k] = np.random.choice(colors)
-                else:
-                    if structure[i-1, j, k] != '': # we ain't letting blocks float
-                        if np.random.rand() > 0.3:  # 70% chance to add a block on top
-                            structure[i, j, k] = np.random.choice(colors)
-                        else:
-                            structure[i, j, k] = ''
-                    else:
-                        structure[i, j, k] = ''
+    x_dim, y_dim, z_dim = dimensions
+    structure = np.full((x_dim, y_dim, z_dim), '', dtype='<U1')
+    for i in range(x_dim):
+        for j in range(y_dim):
+            structure[i, j, 0] = random.choice(['R', 'G', 'B', 'Y'])
+    max_blocks = x_dim * y_dim * z_dim
+    target_blocks = random.randint(int(0.4 * max_blocks), int(0.7 * max_blocks)) 
+    blocks_placed = np.count_nonzero(structure)
+    attempts = 0
+    while blocks_placed < target_blocks and attempts < target_blocks * 10:
+        x = random.randint(0, x_dim - 1)
+        y = random.randint(0, y_dim - 1)
+        z = random.randint(1, z_dim - 1)  
+        if structure[x, y, z] == '' and structure[x, y, z-1] != '':
+            structure[x, y, z] = random.choice(['R', 'G', 'B', 'Y'])
+            blocks_placed += 1
+        attempts += 1
     return structure
+
 
 def plot_lego_structure_3d(structure):
     color_map = {
@@ -50,42 +53,43 @@ def plot_lego_structure_3d(structure):
         'Y': 'yellow',
         '': 'white'
     }
-    x, y, z, colors = [], [], [], []
+    fig = go.Figure()
+    cube_size = 0.9  
     for i in range(structure.shape[0]):
         for j in range(structure.shape[1]):
             for k in range(structure.shape[2]):
                 if structure[i, j, k] != '':
-                    x.append(i)
-                    y.append(j)
-                    z.append(k)
-                    colors.append(color_map.get(structure[i, j, k], 'white'))
-    fig = go.Figure(data=[
-        go.Scatter3d(
-            x=x,
-            y=y,
-            z=z,
-            mode='markers',
-            marker=dict(
-                size=10,
-                color=colors,
-                opacity=0.8,
-                symbol='square'
-            )
-        )
-    ])
+                    color = color_map.get(structure[i, j, k], 'white')
+                    fig.add_trace(make_cube(i, j, k, size=cube_size, color=color))
     fig.update_layout(
         scene=dict(
-            xaxis_title='X',
-            yaxis_title='Y',
-            zaxis_title='Z',
+            xaxis=dict(nticks=structure.shape[0]+2, range=[-1, structure.shape[0]+1]),
+            yaxis=dict(nticks=structure.shape[1]+2, range=[-1, structure.shape[1]+1]),
+            zaxis=dict(nticks=structure.shape[2]+2, range=[-1, structure.shape[2]+1]),
             aspectratio=dict(x=1, y=1, z=1),
             bgcolor='white'
         ),
-        title="3D Lego Structure",
-        margin=dict(l=0, r=0, b=0, t=30)
+        title="3D Lego Structure (Cubes)",
+        margin=dict(l=0, r=0, b=0, t=30),
+        showlegend=False
     )
-    
     fig.show()
+
+def make_cube(x_center, y_center, z_center, size=1, color='blue'):
+    d = size / 2
+    x = [x_center-d, x_center+d, x_center+d, x_center-d, x_center-d, x_center+d, x_center+d, x_center-d]
+    y = [y_center-d, y_center-d, y_center+d, y_center+d, y_center-d, y_center-d, y_center+d, y_center+d]
+    z = [z_center-d, z_center-d, z_center-d, z_center-d, z_center+d, z_center+d, z_center+d, z_center+d]
+    vertices = list(zip(x, y, z))
+    I = [0, 0, 0, 1, 1, 2, 3, 4, 4, 5, 6, 7]
+    J = [1, 3, 4, 2, 5, 3, 2, 5, 7, 6, 7, 6]
+    K = [3, 4, 5, 3, 2, 7, 6, 7, 6, 2, 4, 5]
+    return go.Mesh3d(
+        x=x, y=y, z=z,
+        i=I, j=J, k=K,
+        color=color,
+        opacity=1.0
+    )
 
 def plot_lego_sides(structure, save_path=None):
     sides = ['Front', 'Back', 'Left', 'Right']
@@ -110,7 +114,8 @@ def plot_lego_sides(structure, save_path=None):
         for i in range(view.shape[0]):
             for j in range(view.shape[1]):
                 rgb_view[i, j] = color_map.get(view[i, j], (1, 1, 1))
-        
+
+        rgb_view = np.fliplr(rgb_view)
         fig, ax = plt.subplots(figsize=(4, 4))
         ax.imshow(rgb_view, interpolation='nearest')
         ax.set_title(side)
