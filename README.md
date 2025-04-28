@@ -1,19 +1,15 @@
-# AI assisted Cognitive Load Management in VR learning environments
+# AI Agent to Adapt Lego Task Difficulty Based on Team Cognitive Load
 
 ## Overview
-Cognitive load refers to the amount of mental effort or resources required to complete a
-task or process information (Paas et al. 2016). With the recent trend in using Virtual Reality
-(VR) environments for learning and the impact of cognitive load on learning success
-(Sweller et al. 2011), it is important to consider cognitive load when designing these
-environments. Currently, cognitive load detection relies heavily on subjective measures,
-such as self-reports and questionnaires, which do not allow real-time feedback or interventions to learners
-and instructors. In our study, we want to design and evaluate an AI agent that gauge the cognitive load after a
-task and provides a better suited follow-up task for the user. This would provide an effective way of understanding and managing cogntiive load in real-time.
+This project builds on cognitive load theory (CLT) and adaptive learning research. CLT emphasizes that human working memory is limited, so learning tasks should impose a moderate cognitive load​. Flow theory and the Zone of Proximal Development likewise suggest that tasks are most engaging when challenge matches the participants’ skill (not too easy or too hard)​. In recent HCI and educational research, dynamic difficulty adjustment (DDA) is used to keep cognitive load in an optimal range – systems automatically modify task parameters in real time based on user performance​. The novel aspect here is applying these ideas to a collaborative team task (Lego building). Team cognitive load research highlights that group tasks create a “collective cognitive burden”​; this project aims to measure that load (via time/errors) and adapt task difficulty to keep the team in a sweet spot of engagement and performance.
 
 This is the codebase for that agent.
 
+## Agent pipeline
 
-## References
-Paas, F., Tuovinen, J. E., Tabbers, H., & Van Gerven, P. W. (2016). Cognitive load measurement as a means to advance cognitive load theory. In Cognitive Load Theory (pp. 63-71). Routledge 
+Data module: After each task, compute time and error inputs.
+Prediction module: Feed inputs to the trained model to get a load estimate.
+Adjustment module: Compare the estimate to the target. Output a new piece count for the next task based on your rules.
+Interface/Task module: Build a random Lego structure with the adjusted piece count and plot images of each side for the next task.
 
-Sweller, J., Ayres, P., & Kalyuga, S. (2011). Cognitive load theory (vol. 1). New York: Springer. 
+Data is collected from user studies through a light weight interface on tablets. A logistic regression model trained on a different dataset from a VR cooking experiment is used to estimate load. With the load as an input variable, a piece count is computed using a rules-based approach. The agent then generates a configuration of a lego structure to build for the next task with the number of blocks, and the side images are sent to the user interface.
