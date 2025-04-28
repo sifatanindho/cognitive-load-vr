@@ -30,3 +30,11 @@ If you wanna use the default dataset and model leave args blank
 ```python src/evaluate.py``` 
 
 This will evaluate the latest model you trained on the latest dataset you used. Running this without running ```model.py``` is pointless
+
+## Hosting the user study interface
+```python user_study_app/app.py```
+
+## Running the agent
+```python main.py``` 
+
+Ensure user study interface is running
