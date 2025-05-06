@@ -108,7 +108,6 @@ def plot_lego_sides(structure, save_path=None):
     views = [front, back, left, right]
     if save_path:
         os.makedirs(save_path, exist_ok=True)
-
     for view, side in zip(views, sides):
         rgb_view = np.zeros((view.shape[0], view.shape[1], 3))
         for i in range(view.shape[0]):
@@ -118,7 +117,7 @@ def plot_lego_sides(structure, save_path=None):
         rgb_view = np.fliplr(rgb_view)
         fig, ax = plt.subplots(figsize=(4, 4))
         ax.imshow(rgb_view, interpolation='nearest')
-        ax.set_title(side)
+        # ax.set_title(side)
         ax.axis('off')
         plt.tight_layout()
         
@@ -141,11 +140,11 @@ def plot_lego_sides(structure, save_path=None):
 
 if __name__ == "__main__":
     # just an example of how this module works
-    predicted_load = "High"
+    predicted_load = "Medium"
     recommended_task = recommend_task(predicted_load)
     dimensions = get_number_of_blocks(recommended_task)
     print(f"Predicted Cognitive Load: {predicted_load}")
     print(f"Recommended Task Difficulty: {recommended_task}")
     lego_structure = generate_lego_structure(dimensions)
-    plot_lego_sides(lego_structure, "./lego_images")
+    plot_lego_sides(lego_structure, "./lego_images/task_1")
     plot_lego_structure_3d(lego_structure)
