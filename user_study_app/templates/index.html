@@ -8,8 +8,17 @@
     <form method="post" class="bg-white p-8 rounded shadow-md space-y-4">
         <label for="group_id" class="block text-lg">Group ID:</label>
         <input type="text" name="group_id" id="group_id" class="border border-gray-300 p-2 w-full rounded" required>
+        
         <label for="participant_id" class="block text-lg">Participant ID:</label>
         <input type="text" name="participant_id" id="participant_id" class="border border-gray-300 p-2 w-full rounded" required>
+        
+        <label for="experiment_type" class="block text-lg">Experiment Type:</label>
+        <select name="experiment_type" id="experiment_type" class="border border-gray-300 p-2 w-full rounded" required>
+            <option value="">Select experiment type...</option>
+            <option value="AI">AI</option>
+            <option value="Control">Control</option>
+        </select>
+        
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Begin</button>
     </form>
 </body>

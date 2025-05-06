@@ -7,8 +7,12 @@ from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import cross_val_score
 import numpy as np
 import pandas as pd
+import sys
+import os.path
 
-from data_preprocessing import preprocess_data
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.data_preprocessing import preprocess_data
 
 def train_model(data, model_type="random_forest"):
     X_train, X_test, y_train, y_test = data
