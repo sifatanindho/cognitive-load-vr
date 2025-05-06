@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Next Task</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen space-y-6">
+    <div class="bg-white p-8 rounded shadow-md text-center space-y-6 max-w-md">
+        <h1 class="text-2xl font-bold">Task {{ task_number }}</h1>
+        
+        <p class="text-lg">Click next task when ready to start</p>
+        
+        <form method="post" class="flex justify-center">
+            <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 text-lg">
+                Next Task
+            </button>
+        </form>
+    </div>
+</body>
+</html>

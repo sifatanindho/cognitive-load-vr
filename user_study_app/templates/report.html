@@ -6,6 +6,7 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <form method="post" action="/submit" class="bg-white p-8 rounded shadow-md space-y-4">
+        <h1 class="text-2xl font-bold mb-4 text-center">Task {{ task_number }} Report</h1>
         <img src="{{ url_for('static', filename='dream.jpeg') }}" class="max-w-md">
         <label for="errors" class="block text-lg">Number of Errors:</label>
         <input type="number" name="errors" id="errors" class="border border-gray-300 p-2 w-full rounded" required>
