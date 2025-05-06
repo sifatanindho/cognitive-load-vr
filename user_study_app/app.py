@@ -9,7 +9,7 @@ matplotlib.use('Agg')
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from main import run_study
 app = Flask(__name__)
-app.secret_key = 'cognitive_load_deez_nuts'
+app.secret_key = 'secretkey'
 @app.route('/lego_images/<path:filename>')
 def serve_lego_image(filename):
     parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -38,56 +38,42 @@ def experiment():
     if 'task_number' not in session:
         return redirect(url_for('index'))
     participant_id = session.get('participant_id')
-    image_path = '/static/dream.jpeg'  # Default image path
+    task_number = session.get('task_number', 1)
+    image_path = '/static/dream.jpeg'   
     try:
         participant_num = int(participant_id)
         if participant_num == 1:
-            image_path = '/lego_images/back.png'
+            image_path = f'/lego_images/task_{task_number}/back.png'
         elif participant_num == 2:
-            image_path = '/lego_images/front.png'
+            image_path = f'/lego_images/task_{task_number}/front.png'
         elif participant_num == 3:
-            image_path = '/lego_images/left.png'
+            image_path = f'/lego_images/task_{task_number}/left.png'
         elif participant_num == 4:
-            image_path = '/lego_images/right.png'
+            image_path = f'/lego_images/task_{task_number}/right.png'
     except ValueError:
         pass
-    return render_template('experiment.html', task_number=session.get('task_number', 1), image_path=image_path)
+    return render_template('experiment.html', task_number=task_number, image_path=image_path)
 @app.route('/finish', methods=['POST'])
 def finish():
     if 'task_number' not in session:
         return redirect(url_for('index'))
     session['finish_time'] = time.time()
-    group_id = session.get('group_id')
     participant_id = session.get('participant_id')
-    experiment_type = session.get('experiment_type')
     task_number = session.get('task_number')
-    start_time = session.get('start_time')
-    finish_time = session.get('finish_time')
-    duration = finish_time - start_time
-    last_report = {
-        'group_id': group_id,
-        'participant_id': participant_id,
-        'experiment_type': experiment_type,
-        'task': task_number,
-        'duration': duration
-    }
-    with open('last_report.json', 'w') as f:
-        json.dump(last_report, f)
-    run_study(last_report)
     image_path = '/static/dream.jpeg'
     try:
         participant_num = int(participant_id)
         if participant_num == 1:
-            image_path = '/lego_images/back.png'
+            image_path = f'/lego_images/task_{task_number}/back.png'
         elif participant_num == 2:
-            image_path = '/lego_images/front.png'
+            image_path = f'/lego_images/task_{task_number}/front.png'
         elif participant_num == 3:
-            image_path = '/lego_images/left.png'
+            image_path = f'/lego_images/task_{task_number}/left.png'
         elif participant_num == 4:
-            image_path = '/lego_images/right.png'
+            image_path = f'/lego_images/task_{task_number}/right.png'
     except ValueError:
         pass
-    return render_template('report.html', task_number=session.get('task_number', 1), image_path=image_path)
+    return render_template('report.html', task_number=task_number, image_path=image_path)
 @app.route('/submit', methods=['POST'])
 def submit():
     if 'task_number' not in session:
@@ -108,6 +94,9 @@ def submit():
         'errors': errors, 
         'duration': duration
     }
+    with open('last_report.json', 'w') as f:
+        json.dump(report, f)
+    run_study(report)
     if os.path.exists('reports.json'):
         with open('reports.json', 'r') as f:
             data = json.load(f)

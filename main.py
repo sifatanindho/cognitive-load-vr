@@ -34,7 +34,7 @@ def run_study(last_report):
     recommended_task = recommend_task(predicted_load)
     dimensions = get_number_of_blocks(recommended_task)
     lego_structure = generate_lego_structure(dimensions)
-    plot_dir = os.path.join(os.path.dirname(__file__), "lego_images", f"task_{task_number}")
+    plot_dir = os.path.join(os.path.dirname(__file__), "lego_images", f"task_{task_number + 1}")
     os.makedirs(plot_dir, exist_ok=True)
     plot_lego_sides(lego_structure, save_path=plot_dir)
     # plot_lego_structure_3d(lego_structure)
