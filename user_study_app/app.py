@@ -155,6 +155,7 @@ def experiment():
     task_number = session.get('task_number', 1)
     image_path = '/static/dream.jpeg' 
     try:
+        participant_num = int(participant_id)
         if participant_num == 1:
             image_path = f'/lego_images/task_{task_number}/back.png'
         elif participant_num == 2:
