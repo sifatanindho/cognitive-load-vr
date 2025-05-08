@@ -5,8 +5,8 @@ import os
 def run_study(last_report):
     experiment_type = last_report.get("experiment_type")
     task_number = last_report.get("task")
-    errors = int(last_report.get("errors", 0))
-    duration = float(last_report.get("duration", 0))
+    errors = int(last_report.get("errors"))
+    duration = float(last_report.get("duration"))
     predicted_load = None
     if experiment_type == "Control":
         control_loads = {

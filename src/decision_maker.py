@@ -138,8 +138,7 @@ def plot_lego_sides(structure, save_path=None):
     plt.tight_layout()
     plt.show()
 
-if __name__ == "__main__":
-    # just an example of how this module works
+def main():
     predicted_load = "Medium"
     recommended_task = recommend_task(predicted_load)
     dimensions = get_number_of_blocks(recommended_task)
@@ -148,3 +147,7 @@ if __name__ == "__main__":
     lego_structure = generate_lego_structure(dimensions)
     plot_lego_sides(lego_structure, "./lego_images/task_1")
     plot_lego_structure_3d(lego_structure)
+
+
+if __name__ == "__main__":
+    main()
