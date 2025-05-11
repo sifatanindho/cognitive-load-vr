@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Waiting for All Reports</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function checkTaskCompletion() {
+            $.ajax({
+                url: "/check_task_completion/{{ task_number }}",
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    $("#submissions-count").text(data.submissions_count);
+                    $("#total-count").text(data.total_count);
+                    const percentage = (data.submissions_count / data.total_count) * 100;
+                    $("#progress-bar").css("width", percentage + "%");
+                    if (data.task_completed) {
+                        $("#status-message").text("All reports received! Advancing to next task...");
+                        $("#progress-bar").removeClass("bg-yellow-500").addClass("bg-green-500");
+                        setTimeout(function() {
+                            window.location.href = "/wait_for_next_task";
+                        }, 1500);
+                    } else {
+                        setTimeout(checkTaskCompletion, 1000);
+                    }
+                },
+                error: function() {
+                    setTimeout(checkTaskCompletion, 3000);
+                }
+            });
+        }
+        $(document).ready(function() {
+            setTimeout(checkTaskCompletion, 1000);
+        });
+    </script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen space-y-6">
+    <div class="bg-white p-8 rounded shadow-md text-center space-y-6 max-w-md">
+        <h1 class="text-2xl font-bold">Processing Task {{ task_number }}</h1>
+        <div class="text-lg">
+            <p id="status-message">Waiting for all participants to submit reports...</p>
+            <p class="mt-4">
+                <span id="submissions-count">{{ submissions_count }}</span>/<span id="total-count">{{ total_count }}</span> reports submitted
+            </p>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-4">
+            <div id="progress-bar" class="bg-yellow-500 h-4 rounded-full transition-all duration-500 ease-in-out" style="width: {{ (submissions_count / total_count) * 100 }}%"></div>
+        </div>
+        <p class="text-gray-500">Please wait while all reports are collected and processed...</p>
+    </div>
+</body>
+</html>
