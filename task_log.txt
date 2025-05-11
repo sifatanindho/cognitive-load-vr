@@ -1,33 +1,3 @@
-Task 1:
-  Experiment Type: Control
-  Predicted Load: Medium
-  Recommended Task: 3
-  Dimensions: (4, 4, 4)
-  Lego structure saved to: /Users/sifatulislamanindho/Documents/colorado state/classes/spring 2025/cs 540/cognitive-load-vr/lego_images/task_2
-Task 2:
-  Experiment Type: Control
-  Predicted Load: Very High
-  Recommended Task: 1
-  Dimensions: (2, 2, 2)
-  Lego structure saved to: /Users/sifatulislamanindho/Documents/colorado state/classes/spring 2025/cs 540/cognitive-load-vr/lego_images/task_3
-Task 2:
-  Experiment Type: Control
-  Predicted Load: Very High
-  Recommended Task: 1
-  Dimensions: (2, 2, 2)
-  Lego structure saved to: /Users/sifatulislamanindho/Documents/colorado state/classes/spring 2025/cs 540/cognitive-load-vr/lego_images/task_2
-Task 3:
-  Experiment Type: Control
-  Predicted Load: High
-  Recommended Task: 2
-  Dimensions: (3, 3, 3)
-  Lego structure saved to: /Users/sifatulislamanindho/Documents/colorado state/classes/spring 2025/cs 540/cognitive-load-vr/lego_images/task_3
-Task 4:
-  Experiment Type: Control
-  Predicted Load: Low
-  Recommended Task: 4
-  Dimensions: (5, 5, 5)
-  Lego structure saved to: /Users/sifatulislamanindho/Documents/colorado state/classes/spring 2025/cs 540/cognitive-load-vr/lego_images/task_4
 Task 2:
   Experiment Type: Control
   Predicted Load: High
@@ -58,9 +28,3 @@ Task 6:
   Recommended Task: 3
   Dimensions: (4, 4, 4)
   Lego structure saved to: /Users/sifatulislamanindho/Documents/colorado state/classes/spring 2025/cs 540/cognitive-load-vr/lego_images/task_6
-Task 2:
-  Experiment Type: Control
-  Predicted Load: High
-  Recommended Task: 2
-  Dimensions: (3, 3, 3)
-  Lego structure saved to: /Users/sifatulislamanindho/Documents/colorado state/classes/spring 2025/cs 540/cognitive-load-vr/lego_images/task_2
