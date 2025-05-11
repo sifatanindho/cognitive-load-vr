@@ -4,21 +4,23 @@ import os
 
 def run_study(last_report):
     experiment_type = last_report.get("experiment_type")
-    task_number = last_report.get("task")
-    errors = int(last_report.get("errors"))
-    duration = float(last_report.get("duration"))
+    task_number = last_report.get("task") + 1
+    print("DOES IT GET TO TASK NUMBER")
+    errors = int(last_report.get("avg_errors"))
+    duration = float(last_report.get("avg_duration"))
     predicted_load = None
+    print(f"Calling run_study with task {task_number}")
     if experiment_type == "Control":
         control_loads = {
             1: "Medium",
-            2: "Very High",
-            3: "High",
+            2: "High",
+            3: "Medium",
             4: "Low",
             5: "Medium"
         }
         predicted_load = control_loads.get(task_number, "Medium")
     elif experiment_type == "AI":
-        if task_number in [1, 5]:
+        if task_number in [5]:
             predicted_load = "Medium"
         elif task_number in [2, 3, 4]:
             model_path = os.path.join(os.path.dirname(__file__), "models", "cognitive_load_model.pkl")
@@ -34,7 +36,7 @@ def run_study(last_report):
     recommended_task = recommend_task(predicted_load)
     dimensions = get_number_of_blocks(recommended_task)
     lego_structure = generate_lego_structure(dimensions)
-    plot_dir = os.path.join(os.path.dirname(__file__), "lego_images", f"task_{task_number + 1}")
+    plot_dir = os.path.join(os.path.dirname(__file__), "lego_images", f"task_{task_number}")
     os.makedirs(plot_dir, exist_ok=True)
     plot_lego_sides(lego_structure, save_path=plot_dir)
     # plot_lego_structure_3d(lego_structure)

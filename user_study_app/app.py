@@ -69,44 +69,50 @@ def initialize_group(group_id, experiment_type):
                 print(f"Error running decision_maker: {e}")
 
 def all_participants_completed(group_id):
-    with group_data_lock:
-        if group_id in group_data:
-            return len(group_data[group_id]["pending_members"]) == 0
-        return False
-    
+    if group_id in group_data:
+        return len(group_data[group_id]["pending_members"]) == 0
+    return False
+
 def process_group_task_completion(group_id):
-    with group_data_lock:
-        if group_id in group_data:
-            group = group_data[group_id]
-            task_number = group["task_number"]
-            total_duration = 0
-            total_errors = 0
-            participant_count = 0
-            for participant_id, data in group["participants"].items():
-                if len(data["reports"]) >= task_number:
-                    latest_report = data["reports"][task_number - 1]
-                    total_duration += latest_report.get("duration", 0)
-                    total_errors += int(latest_report.get("errors", 0))
-                    participant_count += 1
-            if participant_count > 0:
-                avg_duration = total_duration / participant_count
-                avg_errors = total_errors / participant_count
-                combined_report = {
-                    "group_id": group_id,
-                    "task": task_number,
-                    "experiment_type": group["experiment_type"],
-                    "avg_duration": avg_duration,
-                    "avg_errors": avg_errors,
-                    "participant_count": participant_count
-                }
-                group["completed_tasks"].append(combined_report)
+    print("Running process_group_task_completion()")
+    if group_id in group_data:
+        group = group_data[group_id]
+        task_number = group["task_number"]
+        total_duration = 0
+        total_errors = 0
+        participant_count = 0
+        for participant_id, data in group["participants"].items():
+            if len(data["reports"]) >= task_number and data["reports"][task_number - 1] is not None:
+                latest_report = data["reports"][task_number - 1]
+                total_duration += latest_report.get("duration", 0)
+                total_errors += int(latest_report.get("errors", 0))
+                participant_count += 1
+        if participant_count > 0:
+            avg_duration = total_duration / participant_count
+            avg_errors = total_errors / participant_count
+            combined_report = {
+                "group_id": group_id,
+                "task": task_number,
+                "experiment_type": group["experiment_type"],
+                "avg_duration": avg_duration,
+                "avg_errors": avg_errors,
+                "participant_count": participant_count
+            }
+            group["completed_tasks"].append(combined_report)
+            print(combined_report)
+            try:
                 run_study(combined_report)
+            except Exception as e:
+                print(f"Error running study for group {group_id}, task {task_number}: {e}")
+            try:
                 with open(f'group_{group_id}_task_{task_number}_report.json', 'w') as f:
                     json.dump(combined_report, f)
-                group["task_number"] += 1
-                group["pending_members"] = ["1", "2", "3", "4"]
-                return combined_report
-        return None
+            except Exception as e:
+                print(f"Error saving combined report for group {group_id}, task {task_number}: {e}")
+            group["task_number"] += 1
+            group["pending_members"] = ["1", "2", "3", "4"]
+            return combined_report
+    return None
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -203,7 +209,13 @@ def submit():
     experiment_type = session.get('experiment_type')
     with group_data_lock:
         if group_id in group_data:
-            task_number = group_data[group_id]["task_number"]
+            current_task = group_data[group_id]["task_number"]
+            if (participant_id in group_data[group_id]["participants"] and
+                len(group_data[group_id]["participants"][participant_id]["reports"]) >= current_task and
+                group_data[group_id]["participants"][participant_id]["reports"][current_task - 1] is not None):
+                return redirect(url_for('proxy'))
+        else:
+            current_task = session.get('task_number', 1)
     errors = request.form['errors']
     start_time = session.get('start_time')
     finish_time = session.get('finish_time')
@@ -212,33 +224,40 @@ def submit():
         'group_id': group_id, 
         'participant_id': participant_id,
         'experiment_type': experiment_type,
-        'task': task_number,
+        'task': current_task,
         'errors': errors, 
         'duration': duration
     }
-    with open(f'participant_{participant_id}_task_{task_number}_report.json', 'w') as f:
+    with open(f'participant_{participant_id}_task_{current_task}_report.json', 'w') as f:
         json.dump(report, f)
+    combined_report = None
     with group_data_lock:
         if group_id in group_data:
-            if participant_id in group_data[group_id]["participants"]:
-                while len(group_data[group_id]["participants"][participant_id]["reports"]) < task_number:
-                    group_data[group_id]["participants"][participant_id]["reports"].append(None)
-                if len(group_data[group_id]["participants"][participant_id]["reports"]) >= task_number:
-                    group_data[group_id]["participants"][participant_id]["reports"][task_number - 1] = report
-                else:
-                    group_data[group_id]["participants"][participant_id]["reports"].append(report)
-            if participant_id in group_data[group_id]["pending_members"]:
-                group_data[group_id]["pending_members"].remove(participant_id)
-            if all_participants_completed(group_id):
-                process_group_task_completion(group_id)
+            if current_task == group_data[group_id]["task_number"]:
+                if participant_id in group_data[group_id]["participants"]:
+                    while len(group_data[group_id]["participants"][participant_id]["reports"]) < current_task:
+                        group_data[group_id]["participants"][participant_id]["reports"].append(None)
+                    if len(group_data[group_id]["participants"][participant_id]["reports"]) >= current_task:
+                        group_data[group_id]["participants"][participant_id]["reports"][current_task - 1] = report
+                    else:
+                        group_data[group_id]["participants"][participant_id]["reports"].append(report)
+                if participant_id in group_data[group_id]["pending_members"]:
+                    group_data[group_id]["pending_members"].remove(participant_id)
+                if all_participants_completed(group_id):
+                    combined_report = process_group_task_completion(group_id)
     if os.path.exists('reports.json'):
-        with open('reports.json', 'r') as f:
-            data = json.load(f)
+        try:
+            with open('reports.json', 'r') as f:
+                data = json.load(f)
+        except json.JSONDecodeError:
+            data = []
     else:
         data = []
     data.append(report)
     with open('reports.json', 'w') as f:
         json.dump(data, f)
+    if combined_report:
+        print(f"Group {group_id} completed task {current_task}, advancing to task {current_task + 1}")
     return redirect(url_for('proxy'))
 
 @app.route('/group_status/<group_id>')
