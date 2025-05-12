@@ -9,6 +9,9 @@
         <h1 class="text-2xl font-bold mb-4 text-center">Task {{ task_number }} Report</h1>
         <img src="{{ image_path }}" class="max-w-md">
         <label for="errors" class="block text-lg">Number of Errors:</label>
+        <label for="instr1" class="block text-lg">- Missing Blocks</label>
+        <label for="instr2" class="block text-lg">- Extra Blocks</label>
+        <label for="instr3" class="block text-lg">- Wrong color blocks</label>
         <input type="number" name="errors" id="errors" class="border border-gray-300 p-2 w-full rounded" required>
         <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Submit</button>
     </form>

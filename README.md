@@ -33,10 +33,6 @@ This will evaluate the latest model you trained on the latest dataset you used. 
 
 ## Running the user study interface
 
-First, make sure lego_images/ directory is empty. Then run the following:
-
-```python src/decision_maker.py```
-
 ```python user_study_app/app.py```
 
 ## User study guidelines

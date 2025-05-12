@@ -28,3 +28,9 @@ Task 6:
   Recommended Task: 3
   Dimensions: (4, 4, 4)
   Lego structure saved to: /Users/sifatulislamanindho/Documents/colorado state/classes/spring 2025/cs 540/cognitive-load-vr/lego_images/task_6
+Task 2:
+  Experiment Type: Control
+  Predicted Load: High
+  Recommended Task: 2
+  Dimensions: (3, 3, 3)
+  Lego structure saved to: C:\Users\Maximilian Rose\OneDrive - Colostate\Documents\CS540\CS540proj\cognitive-load-vr\lego_images\task_2
