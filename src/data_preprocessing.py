@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+import joblib
 
 def preprocess_data(file_path):
     df = pd.read_csv(file_path)
@@ -20,9 +21,10 @@ def preprocess_data(file_path):
                 'MWS': row[f'MWS{i}']
             })
     reshaped_df = pd.DataFrame(reshaped_data)
-    reshaped_df['Time'] = reshaped_df['Time'] / reshaped_df['Time'].max()
+    # reshaped_df['Time'] = reshaped_df['Time'] / reshaped_df['Time'].max() (no need to normalize since we scaling anyways)
     scaler = StandardScaler()
     reshaped_df[['Time', 'Errors']] = scaler.fit_transform(reshaped_df[['Time', 'Errors']])
+    joblib.dump(scaler, 'scaler.pkl')  # Save that shii for later when we predict
     reshaped_df['MWS_Label'] = pd.cut(
         reshaped_df['MWS'],
         bins=5, 
