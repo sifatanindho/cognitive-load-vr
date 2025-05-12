@@ -43,7 +43,7 @@ def train_model(data, model_type="random_forest"):
 
 def predict(model, new_data):
     new_data_df = pd.DataFrame([new_data])
-    new_data_df[['Time', 'Errors']] = saved_scaler.transform(new_data_df[['Time', 'Errors']])
+    # new_data_df[['Time', 'Errors']] = saved_scaler.transform(new_data_df[['Time', 'Errors']])
     prediction = model.predict(new_data_df)
     return prediction[0]
 
