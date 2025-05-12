@@ -5,6 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import StandardScaler
 import numpy as np
 import pandas as pd
 import sys
@@ -12,7 +13,6 @@ import os.path
 import joblib
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-saved_scaler = joblib.load('scaler.pkl')
 from src.data_preprocessing import preprocess_data
 
 def train_model(data, model_type="random_forest"):
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model_type",
         type=str,
-        default="random_forest",
+        default="logistic_regression",
         choices=["random_forest", "logistic_regression"],
         help="Type of model to train. You only got two choices rn :) : 'random_forest' and 'logistic_regression'."
     )
@@ -68,5 +68,6 @@ if __name__ == "__main__":
     file_path = os.path.join(data_dir, "PrevExperimentData.csv")
     file_path = args.dataset if args.dataset else os.path.join(data_dir, "PrevExperimentData.csv")
     X_train, X_test, y_train, y_test = preprocess_data(file_path)
+    saved_scaler = joblib.load('scaler.pkl')
     model = train_model((X_train, X_test, y_train, y_test), model_type=args.model_type)
     print("Model trained babyy.")

@@ -2,6 +2,8 @@ import os
 import pickle
 import pandas as pd
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.preprocessing import StandardScaler
+import joblib
 
 def evaluate_model(model, X_test, y_test):
     y_codes = {"Very Low": 0, "Low": 1, "Medium": 2, "High": 3, "Very High": 4}
