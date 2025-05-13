@@ -2,6 +2,18 @@ import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+import joblib
+import numpy as np
+
+# from sklearn.preprocessing import StandardScaler
+# import pandas as pd
+
+# pizza_scaler = StandardScaler()
+# pizza_scaled = pizza_scaler.fit_transform(pizza_df[['Time', 'Errors']])
+# new_mean = new_df[['Time', 'Errors']].mean()
+# new_std = new_df[['Time', 'Errors']].std()
+# pizza_mapped = (pizza_scaled * new_std.values) + new_mean.values
+# pizza_df_transformed = pd.DataFrame(pizza_mapped, columns=['Time', 'Errors'])
 
 def preprocess_data(file_path):
     df = pd.read_csv(file_path)
@@ -20,9 +32,16 @@ def preprocess_data(file_path):
                 'MWS': row[f'MWS{i}']
             })
     reshaped_df = pd.DataFrame(reshaped_data)
-    reshaped_df['Time'] = reshaped_df['Time'] / reshaped_df['Time'].max()
+    # reshaped_df['Time'] = reshaped_df['Time'] / reshaped_df['Time'].max() (no need to normalize since we scaling anyways)
     scaler = StandardScaler()
     reshaped_df[['Time', 'Errors']] = scaler.fit_transform(reshaped_df[['Time', 'Errors']])
+    new_mean = [[82.42288223505, 0.2]]
+    new_std = [[14.747595618782, 0.2]]
+    new_mean = np.array(new_mean).flatten()
+    new_std = np.array(new_std).flatten()
+    # mapped_data = ( * new_std) + new_mean
+    reshaped_df[['Time', 'Errors']] = (reshaped_df[['Time', 'Errors']] * new_std) + new_mean
+    joblib.dump(scaler, 'scaler.pkl')  # Save that shii for later when we predict
     reshaped_df['MWS_Label'] = pd.cut(
         reshaped_df['MWS'],
         bins=5, 
