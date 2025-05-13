@@ -5,7 +5,7 @@ import os
 def run_study(last_report):
     experiment_type = last_report.get("experiment_type")
     task_number = last_report.get("task") + 1
-    print("DOES IT GET TO TASK NUMBER")
+    print("DOES IT GET TO TASK NUMBER IN RUN STUDY")
     errors = int(last_report.get("avg_errors"))
     duration = float(last_report.get("avg_duration"))
     predicted_load = None
@@ -30,8 +30,7 @@ def run_study(last_report):
                 input_data = [[duration, errors]] 
                 predicted_load = model.predict(input_data)[0]
             else:
-                print("Cognitive load model not found. Defaulting to 'Medium'.")
-                predicted_load = "Medium"
+                print("wtf where is the cog load model")
     print(f"Task {task_number}: Predicted Cognitive Load = {predicted_load}")
     recommended_task = recommend_task(predicted_load)
     dimensions = get_number_of_blocks(recommended_task)
