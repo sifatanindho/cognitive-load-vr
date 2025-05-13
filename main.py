@@ -54,4 +54,4 @@ def run_study(last_report):
         log.write(log_message)
 
 def main():
-    print("Run the user app")
+    print("Don't run this, just run the user study dawg. This ain't a standalone script")
