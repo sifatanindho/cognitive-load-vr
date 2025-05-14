@@ -33,8 +33,24 @@ This will evaluate the latest model you trained on the latest dataset you used. 
 
 ## Running the user study interface
 
-First, make sure lego_images/ directory is empty. Then run the following:
-
-```python src/decision_maker.py```
-
 ```python user_study_app/app.py```
+
+1. Delete folder root/lego_images
+2. Run the above command
+3. There will be 2 URLs printed into the console. Open the lower one on four devices or four different browsers. Open the higher one to view the current full model for the task.
+4. On each browser, setup the experiment: Enter group ID (same for each participant in one group of four), and participant ID (has to be 1-4), and select condition.
+5. From then on, the participants can use the app themselves and follow the on-screen instructions.
+
+## User study guidelines
+
+1. Share the URL with the ip address from the logs with all 4 participants
+2. Fill out the index page with group id (should be the same), participant id (1, 2, 3, 4) and the experiment type on all the devices and click "Begin"
+3. Read out loud:
+   
+<i>"In this study, you will all be building 5 different lego structures together in 5 phases, or tasks. When you start each task, you will each see an image of one side of the structure and will be working collaboratively to rebuild a structure with a side that matches your image. The image will disappear after 2 minutes, so make sure to remember your structure well enough or finish quickly. After finishing each task, you will see your image again and will be asked to report the number of errors. An error is a block that was missed or incorrect. So, if a block is placed where it should be empty, or if it's missing when there should be one, or if you had the block placed where it should be but the color was wrong -- those are all considered as an error. Good luck!"</i>
+
+4. Ask them to start the task at the same time
+5. Pictures show up, tell them to all click on finish only when the whole team is done
+6. Ask them to fill out the report individually and then click on submit when everyone is done. Occasionally the participants have to re-load the pages here.
+7. Repeat 4-7 until Task 5 ends
+8. Check if reports.json has all the group info

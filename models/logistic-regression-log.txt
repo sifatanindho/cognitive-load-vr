@@ -1,0 +1,68 @@
+(cog-vr) sifatulislamanindho@Sifatuls-MacBook-Pro cognitive-load-vr % python src/model.py                           
+cross-validation Scores: [0.27272727 0.36363636 0.27272727 0.33333333 0.42857143]
+mean cross-val acc: 0.3341991341991342
+stdev of cross-val acc: 0.05887445887445888
+Test Set Accuracy: 0.37037037037037035
+
+Classification Report:
+/Users/sifatulislamanindho/opt/anaconda3/envs/cog-vr/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/Users/sifatulislamanindho/opt/anaconda3/envs/cog-vr/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/Users/sifatulislamanindho/opt/anaconda3/envs/cog-vr/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+              precision    recall  f1-score   support
+
+        High       0.12      0.20      0.15         5
+         Low       0.00      0.00      0.00         5
+      Medium       0.44      0.73      0.55        11
+   Very High       1.00      0.25      0.40         4
+    Very Low       0.00      0.00      0.00         2
+
+    accuracy                           0.37        27
+   macro avg       0.31      0.24      0.22        27
+weighted avg       0.35      0.37      0.31        27
+
+Model trained babyy.
+(cog-vr) sifatulislamanindho@Sifatuls-MacBook-Pro cognitive-load-vr % python src/evaluation.py                      
+/Users/sifatulislamanindho/opt/anaconda3/envs/cog-vr/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/Users/sifatulislamanindho/opt/anaconda3/envs/cog-vr/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/Users/sifatulislamanindho/opt/anaconda3/envs/cog-vr/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+Accuracy: 0.37037037037037035
+
+Classification Report:
+/Users/sifatulislamanindho/opt/anaconda3/envs/cog-vr/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/Users/sifatulislamanindho/opt/anaconda3/envs/cog-vr/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/Users/sifatulislamanindho/opt/anaconda3/envs/cog-vr/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+              precision    recall  f1-score   support
+
+        High       0.12      0.20      0.15         5
+         Low       0.00      0.00      0.00         5
+      Medium       0.44      0.73      0.55        11
+   Very High       1.00      0.25      0.40         4
+    Very Low       0.00      0.00      0.00         2
+
+    accuracy                           0.37        27
+   macro avg       0.31      0.24      0.22        27
+weighted avg       0.35      0.37      0.31        27
+
+
+Confusion Matrix:
+[[1 0 4 0 0]
+ [1 0 4 0 0]
+ [3 0 8 0 0]
+ [2 0 1 1 0]
+ [1 0 1 0 0]]
+
+Off-by-1 Ratio: 0.8518518518518519
+Evaluation complete.
+
+Hyperparameters:
+max_iter = 100000
+random_state = 45

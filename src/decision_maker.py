@@ -29,7 +29,7 @@ def generate_lego_structure(dimensions):
     structure = np.full((x_dim, y_dim, z_dim), '', dtype='<U1')
     for i in range(x_dim):
         for j in range(y_dim):
-            structure[i, j, 0] = random.choice(['R', 'G', 'B', 'Y'])
+            structure[i, j, 0] = random.choice(['R', 'B', 'Y'])
     max_blocks = x_dim * y_dim * z_dim
     target_blocks = random.randint(int(0.4 * max_blocks), int(0.7 * max_blocks)) 
     blocks_placed = np.count_nonzero(structure)
@@ -39,7 +39,7 @@ def generate_lego_structure(dimensions):
         y = random.randint(0, y_dim - 1)
         z = random.randint(1, z_dim - 1)  
         if structure[x, y, z] == '' and structure[x, y, z-1] != '':
-            structure[x, y, z] = random.choice(['R', 'G', 'B', 'Y'])
+            structure[x, y, z] = random.choice(['R', 'B', 'Y'])
             blocks_placed += 1
         attempts += 1
     return structure
@@ -49,7 +49,6 @@ def plot_lego_structure_3d(structure):
     color_map = {
         'R': 'red',
         'B': 'blue',
-        'G': 'green',
         'Y': 'yellow',
         '': 'white'
     }
@@ -69,7 +68,7 @@ def plot_lego_structure_3d(structure):
             aspectratio=dict(x=1, y=1, z=1),
             bgcolor='white'
         ),
-        title="3D Lego Structure (Cubes)",
+        title="3D lego structure (Cubes)",
         margin=dict(l=0, r=0, b=0, t=30),
         showlegend=False
     )
@@ -97,7 +96,6 @@ def plot_lego_sides(structure, save_path=None):
     color_map = {
         'R': (1, 0, 0),    
         'B': (0, 0, 1),    
-        'G': (0, 1, 0),    
         'Y': (1, 1, 0),    
         '': (1, 1, 1)      # rgb values bc imshow loves numbers
     }
@@ -113,14 +111,12 @@ def plot_lego_sides(structure, save_path=None):
         for i in range(view.shape[0]):
             for j in range(view.shape[1]):
                 rgb_view[i, j] = color_map.get(view[i, j], (1, 1, 1))
-
         rgb_view = np.fliplr(rgb_view)
         fig, ax = plt.subplots(figsize=(4, 4))
         ax.imshow(rgb_view, interpolation='nearest')
         # ax.set_title(side)
         ax.axis('off')
         plt.tight_layout()
-        
         if save_path:
             filename = os.path.join(save_path, f"{side.lower()}.png")
             plt.savefig(filename)
@@ -138,9 +134,8 @@ def plot_lego_sides(structure, save_path=None):
     plt.tight_layout()
     plt.show()
 
-if __name__ == "__main__":
-    # just an example of how this module works
-    predicted_load = "Medium"
+def main():
+    predicted_load = "Medium" ## we did this in a weird way so this will be used for task 1 (which is always medium)
     recommended_task = recommend_task(predicted_load)
     dimensions = get_number_of_blocks(recommended_task)
     print(f"Predicted Cognitive Load: {predicted_load}")
@@ -148,3 +143,7 @@ if __name__ == "__main__":
     lego_structure = generate_lego_structure(dimensions)
     plot_lego_sides(lego_structure, "./lego_images/task_1")
     plot_lego_structure_3d(lego_structure)
+
+
+if __name__ == "__main__":
+    main()
