@@ -29,7 +29,7 @@ def generate_lego_structure(dimensions):
     structure = np.full((x_dim, y_dim, z_dim), '', dtype='<U1')
     for i in range(x_dim):
         for j in range(y_dim):
-            structure[i, j, 0] = random.choice(['R', 'B'])
+            structure[i, j, 0] = random.choice(['R', 'B', 'Y'])
     max_blocks = x_dim * y_dim * z_dim
     target_blocks = random.randint(int(0.4 * max_blocks), int(0.7 * max_blocks)) 
     blocks_placed = np.count_nonzero(structure)
@@ -39,7 +39,7 @@ def generate_lego_structure(dimensions):
         y = random.randint(0, y_dim - 1)
         z = random.randint(1, z_dim - 1)  
         if structure[x, y, z] == '' and structure[x, y, z-1] != '':
-            structure[x, y, z] = random.choice(['R', 'B'])
+            structure[x, y, z] = random.choice(['R', 'B', 'Y'])
             blocks_placed += 1
         attempts += 1
     return structure
@@ -49,6 +49,7 @@ def plot_lego_structure_3d(structure):
     color_map = {
         'R': 'red',
         'B': 'blue',
+        'Y': 'yellow',
         '': 'white'
     }
     fig = go.Figure()
@@ -95,6 +96,7 @@ def plot_lego_sides(structure, save_path=None):
     color_map = {
         'R': (1, 0, 0),    
         'B': (0, 0, 1),    
+        'Y': (1, 1, 0),    
         '': (1, 1, 1)      # rgb values bc imshow loves numbers
     }
     front = np.flipud(np.transpose(structure[:, -1, :]))   # x-z plane

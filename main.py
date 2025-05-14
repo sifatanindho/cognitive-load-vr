@@ -5,7 +5,6 @@ import os
 def run_study(last_report):
     experiment_type = last_report.get("experiment_type")
     task_number = last_report.get("task") + 1
-    print("DOES IT GET TO TASK NUMBER IN RUN STUDY")
     errors = int(last_report.get("avg_errors"))
     duration = float(last_report.get("avg_duration"))
     predicted_load = None
