@@ -152,7 +152,6 @@ def process_group_task_completion(group_id):
             reset_ready_states(group_id, "ready_for_experiment")
             reset_ready_states(group_id, "ready_for_report")
             reset_ready_states(group_id, "ready_for_next_task")
-            print("DOES IT GET PAST RESET")
             return combined_report
     return None
 
